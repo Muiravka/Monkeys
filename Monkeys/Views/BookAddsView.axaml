@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:Monkeys.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="450" d:DesignHeight="340" MaxHeight="340" MinHeight="340" MaxWidth="460" MinWidth="450"
+        x:Class="Monkeys.Views.BookAddsView"
+        Title="BookAddsView"
+        Icon="/Assets/icon.png"
+        x:Name="BookWindow">
+  
+  <Design.DataContext>
+    <vm:BookAddsViewModel/>
+  </Design.DataContext>
+  
+  <Grid ShowGridLines="False">
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition MaxHeight="60"/>
+      <RowDefinition MinHeight="50" MaxHeight="50"/>
+    </Grid.RowDefinitions>
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Grid.Row="0" Margin="80 0 0 0">
+      <TextBox Watermark="Наименование книги" Width="300" Margin="0 10 0 0" Text="{Binding BookName}"/>
+      <TextBox Watermark="Дата публикации: YYYY-mm-dd" Width="300" Margin="0 10 0 0" Text="{Binding SelectedDate}"/>
+      <!--<TextBlock Text="Дата издания книги" FontSize="10" Margin="0 10 0 0"/>
+      <DatePicker SelectedDate="{Binding SelectedDate}" Margin="0 0 0 0" DayVisible="True" YearVisible="True" MonthVisible="True"/>-->
+      <ComboBox Items="{Binding AuthorsList}" SelectedItem="{Binding SelectedAuthor}" 
+                Width="300" Margin="0 10 0 0">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{Binding FirstName}"/>
+              <TextBlock Text="{Binding LastName}" Margin="3 0 0 0"/>
+              <TextBlock Text="{Binding MiddleName}" Margin="3 0 0 0"/>
+            </StackPanel>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <ComboBox Items="{Binding Publishers}" SelectedItem="{Binding SelectedPublisher}"
+                Width="300" Margin="0 10 0 0">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{Binding PublisherName}"/>
+            </StackPanel>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>
+      <!--<ComboBox Items="{Binding PopularityRatingList}" SelectedItem="{Binding SelectedPopularityRating}" Width="300" Margin="0 10 0 0">
+        <ComboBox.ItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="{Binding PopularityRatingList.Value}"/>
+            </StackPanel>
+          </DataTemplate>
+        </ComboBox.ItemTemplate>
+      </ComboBox>-->
+      <TextBox Watermark="Рейтинг книги" Width="300" Margin="0 10 0 0" Text="{Binding RatingInput}"/>
+    </StackPanel>
+    <ListBox x:Name="genresList" Grid.Row="1" Items="{Binding GenresList}">
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel ItemWidth="150" Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+      <ListBox.ItemTemplate>
+        <DataTemplate>
+           <CheckBox Content="{Binding GenreName}" IsChecked="{Binding IsChecked}"/>
+        </DataTemplate>
+      </ListBox.ItemTemplate>
+      <ListBox.ItemsPanel>
+        <ItemsPanelTemplate>
+          <WrapPanel ItemWidth="135" Height="300" Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
+      </ListBox.ItemsPanel>
+    </ListBox>
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Grid.Row="2">
+      <Button Content="Добавить" 
+              Command="{Binding BookAdding}" CommandParameter="{Binding ElementName=BookWindow}"
+              Margin="110 0 0 0"/>
+      <Button Content="Отмена" 
+              Command="{Binding Canceling}" CommandParameter="{Binding ElementName=BookWindow}" 
+              Width="100" HorizontalContentAlignment="Center" Margin="15 0 0 0"/>
+    </StackPanel>
+  </Grid>
+</Window>
